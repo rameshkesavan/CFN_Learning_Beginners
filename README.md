@@ -114,7 +114,7 @@ Resources:
     Type: "AWS::EC2::Instance"
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-00e17d1165b9dd3ec # Amazon Linux AMI in Singapore
+      ImageId: ami-01da99628f381e50a # Amazon Linux AMI in Singapore
       Tags:
         - Key: "Name"
           Value: !Join [ " ", [ EC2, Instance, with, Fn, Join ] ]
@@ -132,4 +132,33 @@ Go to EC2 services and check AMI ID & Tags to validate.
 The required Resources section declares the AWS resources that you want to include in the stack, such as an Amazon EC2 instance or an Amazon S3 bucket.
 
 ###### Multiple Resources: 
-How to combine multiple resources and invoke in correct order.
+CFN comes to life with more resources. This section will illustrate on how to combine multiple resources and create in correct/specific order of creation.
+
+###### MultipleResources.yaml
+
+```
+Resources:
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-01da99628f381e50a # Amazon Linux AMI in Singapore
+      Tags:
+        - Key: "Name"
+          Value: !Join [ " ", [ EC2, Instance, with, Fn, Join ] ]
+      SecurityGroups: 
+        - !Ref MySecurityGroup
+  MySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+```
+
+Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingMultipleResources" -> self service :-)
+
+Go to EC2 services & Secuirty Groyp to check AMI ID, Tags & SG to validate.
