@@ -20,3 +20,4 @@ To provision and configure your stack resources, you must understand AWS CloudFo
 # What is AWS CFN Stack?
 A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. All the resources in a stack are defined by the stack's AWS CloudFormation template.
 
+# 
