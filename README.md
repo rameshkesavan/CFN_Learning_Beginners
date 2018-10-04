@@ -15,6 +15,8 @@ To provision and configure your stack resources, you must understand AWS CloudFo
 
 # Template Anatomy:
 
+# template.yaml 
+
 AWSTemplateFormatVersion: "version date"
 Description:
   String
