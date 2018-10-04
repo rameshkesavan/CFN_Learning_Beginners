@@ -414,4 +414,284 @@ Outputs:
 
 Go to AWS Console -> CloudFormatoin -> Outputs -> you should see the Server Public DNS Name.
 
+## EC2 Instance Setup.
+
+Downloading and installing application.
+Downloading and installing dependencies/packages.
+Configuration.
+Creating Users/Groups.
+Starting Services.
+
+## Baking Instance with application needs **_UserData_** property section updated.
+
+UserData is Base64 encoded.
+**Only** runs on the first boot cycle.
+Run as root, not run interactively & logs output to /var/log/cloud-init-output.log
+
+```
+#!/bin/bash
+yum update -y
+yum install -y httpd
+service httpd start
+```
+
+```
+Resources:
+ EC2Instance:
+   Type: AWS::EC2::Instance
+   Properties:
+     UserData:
+       !Base64 |
+         #!/bin/bash
+	 yum update -y
+	 yum install -y httpd
+	 service httpd start 
+```
+
+## Helper Scripts:
+
+AWS CloudFormation provides Python helper scripts that you can use to install software and start services on an Amazon EC2 instance that you create as part of your stack
+
+**cfn-init**: Use to retrieve and interpret resource metadata, install packages, create files, and start services.
+
+**cfn-signal**: Use to signal with a CreationPolicy or WaitCondition, so you can synchronize other resources in the stack when the prerequisite resource or application is ready.
+
+**cfn-get-metadata**: Use to retrieve metadata for a resource or path to a specific key.
+
+**cfn-hup**: Use to check for updates to metadata and execute custom hooks when changes are detected.
+
+```
+Procedural scripting is not ideal.
+CFN optimise this using helper scripts.
+Preinstalled on Amazon Linux AMI.
+
+yum install -y aws-cfn-bootstrap
+```
+
+###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Continues.......
