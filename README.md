@@ -211,7 +211,7 @@ Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a templa
 
 Go to EC2 services check Tags to validate.
 
-## Mappings
+## Mappings:
 The optional Mappings section matches a key to a corresponding set of named values. You use the Fn::FindInMap intrinsic function to retrieve values in a map.
 
 You cannot include parameters, pseudo parameters, or intrinsic functions in the Mappings section.
@@ -265,3 +265,76 @@ Resources:
 Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingMappings" -> self service :-)
 
 Go to EC2 services check Tags to validate.
+
+## Input Parameters:
+
+Use the optional Parameters section to customize your templates. Parameters enable you to input custom values to your template each time you create or update a stack.
+
+Input Parameters enable us to input custom values to our template. They are defined withing the top level parameters section. Each parameter must be assigned a value at runtime. You can optionally specify a default value.
+
+The only required attribute is **_Type_** which is the data type.
+
+**_Support Parameter Types_**:
+```
+	String
+	Number
+	List<Number>
+	CommaDelimitedList
+	AWS-specific types (AWS::EC2::Image::Id)
+	Systems Manager Parameter types
+```
+
+###### InputParameters.yaml
+
+```
+Parameters:
+  NameOfService:
+    Description: "The name of the service this stack is to be used for."
+    Type: String
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-04681a1dbd79675a5 
+    ap-southeast-1:
+      AMI: ami-01da99628f381e50a
+    ap-southeast-2:
+      AMI: ami-00e17d1165b9dd3ec
+    eu-west-2:
+      ami-e1768386
+    eu-central-1:
+      AMI: ami-0f5dbc86dd9cbf7a8
+Resources:
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId:
+        Fn::FindInMap:
+        - RegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroups: 
+        - !Ref MySecurityGroup
+      Tags:
+        - Key: "Name"
+          Value: !Ref NameOfService
+      KeyName: !Ref KeyName
+  MySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+```
+
+###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html
+
+Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingInputParameters" -> self service :-)
+
+Go to EC2 services check Description & Tags to validate.
