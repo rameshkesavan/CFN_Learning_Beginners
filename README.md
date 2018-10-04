@@ -222,15 +222,15 @@ You cannot include parameters, pseudo parameters, or intrinsic functions in the 
 Mappings:
   RegionMap:
     us-east-1:
-      AMI: ami-1853ac65
-    us-west-1:
-      AMI: ami-bf5540df
-    eu-west-1:
-      AMI: ami-3bfab942
+      AMI: ami-04681a1dbd79675a5 
     ap-southeast-1:
-      AMI: ami-e2adf99e
+      AMI: ami-01da99628f381e50a
     ap-southeast-2:
-      AMI: ami-43874721
+      AMI: ami-00e17d1165b9dd3ec
+    eu-west-2:
+      ami-e1768386
+    eu-central-1:
+      AMI: ami-0f5dbc86dd9cbf7a8
 Resources:
   Ec2Instance:
     Type: 'AWS::EC2::Instance'
@@ -262,3 +262,6 @@ Resources:
 
 ###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html
 
+Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingMappings" -> self service :-)
+
+Go to EC2 services check Tags to validate.
