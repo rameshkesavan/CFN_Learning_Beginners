@@ -357,3 +357,61 @@ Outputs:
 ```
 
 ###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html
+
+###### Output.yaml
+
+```
+Parameters:
+  NameOfService:
+    Description: "The name of the service this stack is to be used for."
+    Type: String
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-04681a1dbd79675a5 
+    ap-southeast-1:
+      AMI: ami-01da99628f381e50a
+    ap-southeast-2:
+      AMI: ami-00e17d1165b9dd3ec
+    eu-west-2:
+      ami-e1768386
+    eu-central-1:
+      AMI: ami-0f5dbc86dd9cbf7a8
+Resources:
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId:
+        Fn::FindInMap:
+        - RegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroups: 
+        - !Ref MySecurityGroup
+      Tags:
+        - Key: "Name"
+          Value: !Ref NameOfService
+      KeyName: !Ref KeyName
+  MySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+Outputs:
+  ServerDns:
+    Value: !GetAtt
+      - Ec2Instance
+      - PublicDnsName
+```
+
+Go to AWS Console -> CloudFormatoin -> Outputs -> you should see the Server Public DNS Name.
+
+#Continues.......
