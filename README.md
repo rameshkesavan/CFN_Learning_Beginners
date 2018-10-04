@@ -121,3 +121,15 @@ Resources:
 ```
 
 ###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html
+
+Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingIntrinsicFunctions" -> self service :-)
+
+Go to EC2 services and check AMI ID & Tags to validate.
+
+## Multiple Resources:
+
+###### Resources
+The required Resources section declares the AWS resources that you want to include in the stack, such as an Amazon EC2 instance or an Amazon S3 bucket.
+
+###### Multiple Resources: 
+How to combine multiple resources and invoke in correct order.
