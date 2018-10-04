@@ -338,3 +338,22 @@ Resources:
 Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingInputParameters" -> self service :-)
 
 Go to EC2 services check Description & Tags to validate.
+
+## Outputs:
+
+The Outputs section declares output values that you can import into other stacks (to create cross-stack references), return in response (to describe stack calls), or view on the AWS CloudFormation console. 
+
+Outputs enable us to get access to information about resources within a stack. **_For Example _** Create an EC2 Instance and output the Public IP or DNS.
+
+```
+Outputs:
+ InstanceDns:
+   Description:
+	The Instance Dns
+   Value:	
+     !GetAtt
+	- EC@Instance
+	- PublicDnsName
+```
+
+###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html
