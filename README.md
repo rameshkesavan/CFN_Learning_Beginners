@@ -8,12 +8,12 @@ AWS CloudFormation provides a common language for you to describe and provision 
 # Cloud formation in AWS
 CloudFormation has two parts: templates and stacks. A template is a JavaScript Object Notation (JSON) or Yet Another Markup Language (YAML) text file. The file, which is declarative and not scripted, defines what AWS resources or non-AWS resources are required to run the application.
 
+# JSON & YAML Reference: https://aws.amazon.com/blogs/mt/the-virtues-of-yaml-cloudformation-and-using-cloudformation-designer-to-convert-json-to-yaml/
 
 # What is AWS CFN Template?
 To provision and configure your stack resources, you must understand AWS CloudFormation templates, which are formatted text files in JSON or YAML.
 
 # Template Reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html
-
 
 # What is AWS CFN Stack?
 A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. All the resources in a stack are defined by the stack's AWS CloudFormation template.
