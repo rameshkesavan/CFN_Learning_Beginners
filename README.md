@@ -1,6 +1,6 @@
-## CFN_Learning_Beginners
+# CFN_Learning_Beginners
    
-###### Purpose: 
+## Purpose: 
 This repository contains a collaboration of Amazon Web Services CloudFormation Template Examples. To give a glimpse of CFN for beginners and progressively deep dive into CFN world of core automation.  
 
 AWS CloudFormation provides a common language for you to describe and provision all the infrastructure resources in your cloud environment.
