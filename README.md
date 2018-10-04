@@ -87,7 +87,7 @@ Resources:
 A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. All the resources in a stack are defined by the stack's AWS CloudFormation template.
 
 
-CloudFormation Functions:
+## CloudFormation Functions:
 
 AWS CloudFormation provides several built-in functions that help you manage your stacks. 
 
@@ -100,7 +100,7 @@ Input Parameters
 Outputs
 ```
 
-Intrinstic functions:
+###### Intrinstic functions:
 	Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
 
 Note: You can use intrinsic functions only in specific parts of a template. Currently, you can use intrinsic functions in resource properties, outputs, metadata attributes, and update policy attributes. You can also use intrinsic functions to conditionally create stack resources.
