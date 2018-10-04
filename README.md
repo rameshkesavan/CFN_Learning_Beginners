@@ -162,3 +162,19 @@ Resources:
 Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingMultipleResources" -> self service :-)
 
 Go to EC2 services & Secuirty Groyp to check AMI ID, Tags & SG to validate.
+
+## Pseudo:
+
+Pseudo parameters are parameters that are predefined by AWS CloudFormation. You do not declare them in your template. Use them the same way as you would a parameter, as the argument for the Ref function.
+
+**_Example_**: The value of the AWS::Region pseudo parameter to an output value.
+
+```
+Outputs:
+  MyStacksRegion:
+    Value: !Ref "AWS::Region"
+```
+
+```AWS::AccountId``` Returns the AWS account ID of the account in which the stack is being created, such as 12345678245.
+
+###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html
