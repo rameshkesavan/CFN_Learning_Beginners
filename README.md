@@ -100,7 +100,7 @@ Outputs
 
 ###### AWS CloudFormation provides several built-in functions that help you manage your stacks. 
 
-###### Intrinstic functions:
+## Intrinstic functions:
 
 Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
 
