@@ -414,7 +414,7 @@ Outputs:
 
 Go to AWS Console -> CloudFormatoin -> Outputs -> you should see the Server Public DNS Name.
 
-## EC2 Instance Setup.
+## Platform (EC2) and Application Setup:
 
 Downloading and installing application.
 Downloading and installing dependencies/packages.
@@ -470,8 +470,119 @@ yum install -y aws-cfn-bootstrap
 
 ###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
 
+## CFN Init:
 
+The cfn-init helper script enables us to use: AWS::CloudFormation::Init
 
+Single Config Key: CFN Init script calls **_Config_**
+
+```
+Resource:
+  EC2Instance:
+    Type:"AWS::EC2::Instance"
+    Metadata:
+      AWS::CloudFormation::Init:
+	config:
+	  packages:
+	  groups:
+	  users:
+	  sources:
+   	    files
+	  commands:
+	  services:
+	 Properties:
+```
+
+Multiple Config Keys: CFN Init script calls **_Configsets_**
+
+Configsets contain a list of config keys, in a desired execution order.
+
+```
+AWS::CloudFormation:Init:
+  configSets:
+    webphp:
+      - "installphp"
+      - "installweb"
+```
+
+```
+Parameters:
+  NameOfService:
+    Description: "The name of the service this stack is to be used for."
+    Type: String
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-04681a1dbd79675a5 
+    ap-southeast-1:
+      AMI: ami-01da99628f381e50a
+    ap-southeast-2:
+      AMI: ami-00e17d1165b9dd3ec
+    eu-west-2:
+      ami-e1768386
+    eu-central-1:
+      AMI: ami-0f5dbc86dd9cbf7a8
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Metadata: 
+      AWS::CloudFormation::Init:
+        config: 
+          packages: 
+            yum:
+              httpd: []
+              php: []
+          files: 
+            /var/www/html/index.php:
+              content: !Sub |
+                <?php print "Hello New Company"; ?>
+          services: 
+            sysvinit:
+              httpd:
+                enabled: true
+                ensureRunning: true
+    Properties:
+      InstanceType: t2.micro
+      ImageId:
+        Fn::FindInMap:
+        - RegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroupIds:
+        - !Ref MySecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref NameOfService
+      KeyName: !Ref KeyName
+      UserData:
+        'Fn::Base64': 
+          !Sub |
+            #!/bin/bash -xe            
+            # Ensure AWS CFN Bootstrap is the latest
+            yum install -y aws-cfn-bootstrap
+            # Install the files and packages from the metadata
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource EC2Instance  --region ${AWS::Region}
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Open Ports 22 and 80
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+Outputs:
+  Website:
+    Description: The Public DNS for the EC2 Instance
+    Value: !Sub 'http://${EC2Instance.PublicDnsName}'
+```
 
 
 
