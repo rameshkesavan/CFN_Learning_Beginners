@@ -85,3 +85,37 @@ Resources:
 
 ## What is AWS CFN Stack?
 A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. All the resources in a stack are defined by the stack's AWS CloudFormation template.
+
+
+CloudFormation Functions:
+
+AWS CloudFormation provides several built-in functions that help you manage your stacks. 
+
+```
+Intrinstic Functions
+Multiple Resources
+Pseudo Parameters
+Mappings
+Input Parameters
+Outputs
+```
+
+Intrinstic functions:
+	Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
+
+Note: You can use intrinsic functions only in specific parts of a template. Currently, you can use intrinsic functions in resource properties, outputs, metadata attributes, and update policy attributes. You can also use intrinsic functions to conditionally create stack resources.
+
+
+###### IntrinsicFunctions.yaml
+
+```
+Resources:
+  Ec2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-00e17d1165b9dd3ec # Amazon Linux AMI in Sydney
+      Tags:
+        - Key: "Name"
+          Value: !Join [ " ", [ EC2, Instance, with, Fn, Join ] ]
+```
