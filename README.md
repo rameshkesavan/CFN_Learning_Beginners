@@ -163,7 +163,7 @@ Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a templa
 
 Go to EC2 services & Secuirty Groyp to check AMI ID, Tags & SG to validate.
 
-## Pseudo:
+## Pseudo Parameters:
 
 Pseudo parameters are parameters that are predefined by AWS CloudFormation. You do not declare them in your template. Use them the same way as you would a parameter, as the argument for the Ref function.
 
@@ -178,3 +178,35 @@ Outputs:
 ```AWS::AccountId``` Returns the AWS account ID of the account in which the stack is being created, such as 12345678245.
 
 ###### References: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html
+
+PseudoParameters.yaml
+
+```
+Resources:
+  Ec2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-01da99628f381e50a # Amazon Linux AMI in Singapore
+      SecurityGroups: 
+        - !Ref MySecurityGroup
+      Tags:
+        - Key: "Name"
+          Value: !Join 
+            - ""
+            - - "EC2 Instance for "
+              - !Ref AWS::Region
+  MySecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+```
+
+Go to AWS Console -> CloudFormatoin -> Create Stack -> Choose **_Upload a template to Amazon s3_** (upload your template .yaml file) -> Stack Name "TestingPseudoParameters" -> self service :-)
+
+Go to EC2 services check Tags to validate.
