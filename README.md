@@ -39,5 +39,43 @@ To provision and configure your stack resources, you must understand AWS CloudFo
 
 ###### Resources Template Reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html
 
+###### Template.Resources (YAML)
+
+Resources:
+Logical ID:
+	Type: "Resources Type - Ex: EC2, S3 etc..."
+	Properties:
+	  ...set of properties...
+
+EC2 Instance Resource - Example:
+Resources:
+  MyEC2:
+    Type: "AWS::EC2::Instance"
+    Properties:
+	ImageId: "ami-XXXX"
+	Instance Type: t2.micro
+
+S3 Resource - Example:
+Resources:
+  Mys3bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+	BucketName: Hello S3 Bucket
+	AccessControl: PublicRead
+	WebsiteConfiguration:
+	  IndexDocument: index.html
+
+SecurityGroup Resource - Example:
+Resources:
+  MySecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+	GroupDescription: Enable SSH access via port 22
+	SecurityGroupIngress: 
+	  -IpProtocol:tcp
+	   FromPort:'22'
+	   ToPort:'22'
+	   CidrIp:0.0.0.0/0 
+
 ## What is AWS CFN Stack?
 A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. All the resources in a stack are defined by the stack's AWS CloudFormation template.
